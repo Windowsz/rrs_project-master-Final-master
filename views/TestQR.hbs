@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <base target="_blank">
+  <link rel="stylesheet" href="css/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="boot/css/bootstrap.css">
+ <style type="text/css">
+                .scanner-laser{
+                        position: absolute;
+                        margin: 40px;
+                        height: 30px;
+                        width: 30px;
+                }
+                .laser-leftTop{
+                        top: 0;
+                        left: 0;
+                        border-top: solid red 5px;
+                        border-left: solid red 5px; 
+                }
+                .laser-leftBottom{
+                        bottom: 0;
+                        left: 0;
+                        border-bottom: solid red 5px;
+                        border-left: solid red 5px; 
+                }
+                .laser-rightTop{
+                        top: 0;
+                        right: 0;
+                        border-top: solid red 5px;
+                        border-right: solid red 5px;    
+                }
+                .laser-rightBottom{
+                        bottom: 0;
+                        right: 0;
+                        border-bottom: solid red 5px;
+                        border-right: solid red 5px;    
+                }
+        </style>
+
+</head>
+
+<body>
+  
+
+
+
+
+
+  <div style="position: relative;display: inline-block;">
+            <canvas id="qr-canvas" width="320" height="240"></canvas>  // id="qr-canvas" is important!     
+            <div class="scanner-laser laser-rightBottom" style="opacity: 0.5;"></div>
+            <div class="scanner-laser laser-rightTop" style="opacity: 0.5;"></div>
+            <div class="scanner-laser laser-leftBottom" style="opacity: 0.5;"></div>
+            <div class="scanner-laser laser-leftTop" style="opacity: 0.5;"></div>
+        </div>
+    </body>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/qrcodelib.js"></script>
+    <script type="text/javascript" src="js/WebCodeCam.js"></script>
+    <script type="text/javascript">
+    //  defalut-settings
+        $('#qr-canvas').WebCodeCam({
+            ReadQRCode: true, // false or true
+            ReadBarecode: true, // false or true
+            width: 320,
+            height: 240,
+            videoSource: {  
+                    id: true,      //default Videosource
+                    maxWidth: 640, //max Videosource resolution width
+                    maxHeight: 480 //max Videosource resolution height
+            },
+            flipVertical: false,  // false or true
+            flipHorizontal: false,  // false or true
+            zoom: -1, // if zoom = -1, auto zoom for optimal resolution else int
+            beep: "js/beep.mp3", // string, audio file location
+            autoBrightnessValue: false, // functional when value autoBrightnessValue is int
+            brightness: 0, // int 
+            grayScale: false, // false or true
+            contrast: 0, // int 
+            threshold: 0, // int 
+            sharpness: [], //or matrix, example for sharpness ->  [0, -1, 0, -1, 5, -1, 0, -1, 0]
+            resultFunction: function(resText, lastImageSrc) {
+                        /* resText as decoded code, lastImageSrc as image source
+                        example:
+                        alert(resText);
+                        */ 
+            },
+            getUserMediaError: function() {
+                        /* callback funtion to getUserMediaError
+                        example:
+                        alert('Sorry, the browser you are using doesn\'t support getUserMedia');
+                        */
+            },
+            cameraError: function(error) {
+                        /* callback funtion to cameraError, 
+                        example:
+                        var p, message = 'Error detected with the following parameters:\n';
+                        for (p in error) {
+                                message += p + ': ' + error[p] + '\n';
+                        }
+                        alert(message);
+                        */
+            }
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+  
+  <script src="js/jquery.js"></script>
+  <script src="build/qcode-decoder.min.js"></script>
+  <script src="js/adapter.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/ga.js"></script>
+  
+	<script type="text/javascript" src="src/grid.js"></script>
+	<script type="text/javascript" src="src/version.js"></script>
+	<script type="text/javascript" src="src/detector.js"></script>
+	<script type="text/javascript" src="src/formatinf.js"></script>
+	<script type="text/javascript" src="src/errorlevel.js"></script>
+	<script type="text/javascript" src="src/bitmat.js"></script>
+	<script type="text/javascript" src="src/datablock.js"></script>
+	<script type="text/javascript" src="src/bmparser.js"></script>
+	<script type="text/javascript" src="src/datamask.js"></script>
+	<script type="text/javascript" src="src/rsdecoder.js"></script>
+	<script type="text/javascript" src="src/gf256poly.js"></script>
+	<script type="text/javascript" src="src/gf256.js"></script>
+	<script type="text/javascript" src="src/decoder.js"></script>
+	<script type="text/javascript" src="src/qrcode.js"></script>
+	<script type="text/javascript" src="src/findpat.js"></script>
+	<script type="text/javascript" src="src/alignpat.js"></script>
+	<script type="text/javascript" src="src/databr.js"></script>
+</body>
+</html>

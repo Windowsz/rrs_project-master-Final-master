@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Room Reservations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery UI -->
+    <link href="https://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" media="screen">
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/fullcalendar/fullcalendar.css" rel="stylesheet" media="screen">
+    <!-- styles -->
+    <link href="css/styles.css" rel="stylesheet">
+
+    <link href="css/calendar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="header">
+       <div class="container">
+          <div class="row">
+             <div class="col-md-5">
+                <!-- Logo -->
+                <div class="logo">
+                   <h1><a href="index.html">Admin Room Reservations</a></h1>
+                </div>
+             </div>
+             <div class="col-md-5">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="input-group form">
+
+                    </div>
+                  </div>
+                </div>
+             </div>
+             <div class="col-md-2">
+                <div class="navbar navbar-inverse" role="banner">
+                    <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+                      <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                          <a href="/signout"><div class="btn btn-primary"><i class= 'glyphicon glyphicon-off'></i>Logout</div></a>
+                        </li>
+                      </ul>
+                    </nav>
+                </div>
+             </div>
+          </div>
+       </div>
+  </div>
+  <div class="page-content">
+      <div class="row">
+      <div class="col-md-2">
+        <div class="sidebar content-box" style="display: block;">
+                <ul class="nav">
+                    <!-- Main menu -->
+                    <!-- <li class="current"><a href="/home"><i class="glyphicon glyphicon-pencil"></i>Edit Account</a></li> -->
+
+                              <li class="submenu open">
+                         <a href="/home">
+                            <i class="glyphicon glyphicon-user"></i> Account Office
+                            <span class="caret pull-right"></span>
+                         </a>
+                         <!-- Sub menu -->
+                         <ul style="display: block;">
+                            <li><a href="/home">create user</a></li>
+                            <li><a href="/show">all user</a></li>
+                        </ul>
+                    </li>
+
+            <li class="submenu open">
+                         <a href="/addRoom">
+                            <i class="glyphicon glyphicon-book"></i>Room
+                            <span class="caret pull-right"></span>
+                         </a>
+                         <!-- Sub menu -->
+                         <ul style="display: block;">
+                            <li><a href="/addRoom">create  room</a></li>
+                            <li><a href="/showR">all room</a></li>
+                        </ul>
+                    </li>
+
+
+
+
+
+                    <li><a href="/showBL"><i class="glyphicon glyphicon-thumbs-down"></i> Blacklist</a></li>
+                    <li><a href="/QR"><i class="glyphicon glyphicon-barcode"></i> QR Code</a></li>
+                    <!-- <li><a href="#"><i class="glyphicon glyphicon-pencil"></i> Editors</a></li> -->
+
+                </ul>
+             </div>
+          </div>
+<div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="content-box-large">
+                <div class="panel-heading">
+                      <div class="panel-title">Add Admin</div>
+
+
+                  </div>
+                <div class="panel-body">
+
+                  <form action="/insertroom" method="POST" class="form-signin">
+                  <div class="form-group">
+                  </div>
+          <div class="form-group">
+                <label>Room Type</label>
+                <select name="Roomtype" class="form-control" required="" >
+                  <option value="studyroom">Study Room</option>
+                  <option value="meeting">Meeting Room</option>
+                </select>
+                <div class="form-group">
+                <label>Roomname</label>
+                <input type="text" name="Roomname" placeholder="Room name" required="" class="form-control">
+                </div>
+                </div>
+                <div class="form-group">
+                <label>Floor</label>
+                <input type="number" name="floor" required="" class="form-control" min="1" max="6">
+                </div>
+                <div class="form-group">
+                <label>Admin Support</label>
+                <input type="text" name="Officer" placeholder="Officer Username" required="" class="form-control">
+                </div>
+                <div class="form-group">
+                <label>detail</label>
+                <input type="text" name="detail" placeholder="detail" required="" class="form-control">
+                </div>
+                <label>Support User</label>
+                <input type="number" name="Support" required="" class="form-control" min="5" max="100">
+                </div>
+                <div class="form-group">
+                <label>Picture</label>
+
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+                <span class="clearfix"></span>
+              </form>
+                </form>
+                </div>
+              </div>
+            </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- jQuery UI -->
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="vendors/form-helpers/js/bootstrap-formhelpers.min.js"></script>
+
+    <script src="vendors/select/bootstrap-select.min.js"></script>
+
+    <script src="vendors/tags/js/bootstrap-tags.min.js"></script>
+
+    <script src="vendors/mask/jquery.maskedinput.min.js"></script>
+
+    <script src="vendors/moment/moment.min.js"></script>
+
+    <script src="vendors/wizard/jquery.bootstrap.wizard.min.js"></script>
+
+     <!-- bootstrap-datetimepicker -->
+     <link href="vendors/bootstrap-datetimepicker/datetimepicker.css" rel="stylesheet">
+     <script src="vendors/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+    <script src="js/custom.js"></script>
+    <script src="js/forms.js"></script>
+  </body>
+</html>
