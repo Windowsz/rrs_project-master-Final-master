@@ -161,12 +161,12 @@ exports.getRoom = function(req, res) {
     var roomtypes = req.param('Roomtype');
     var days = req.param('day');
     var time = req.param('time');
-    var unum = req.param('num');
+//    var unum = req.param('num');
 
     addroom
         .find({
             Roomtype: roomtypes,
-            //          Support: {$gte: unum}
+          //  Support: {$gte: req.param('num')}
         }).exec(function(err, findroom) {
             if (err) {
                 return handleError(err);
