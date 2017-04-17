@@ -161,12 +161,12 @@ exports.getRoom = function(req, res) {
     var roomtypes = req.param('Roomtype');
     var days = req.param('day');
     var time = req.param('time');
-//    var unum = req.param('num');
+    //    var unum = req.param('num');
 
     addroom
         .find({
             Roomtype: roomtypes,
-          //  Support: {$gte: req.param('num')}
+            //  Support: {$gte: req.param('num')}
         }).exec(function(err, findroom) {
             if (err) {
                 return handleError(err);
@@ -175,7 +175,7 @@ exports.getRoom = function(req, res) {
                 res.json(findroom);
             };
         });
-  /*  confirmRRS.find({
+    /*  confirmRRS.find({
       Confirmdate : days,
       times : time
     }).exec(function(err, findroom) {
@@ -198,7 +198,7 @@ exports.deleteR = function(req, res, next) {
 
 exports.showJsonROOM = function(req, res) {
     addroom
-        .find()
+        .find({_id: req.param('id')})
         .populate('File')
         .sort({
             date: -1
@@ -226,9 +226,7 @@ exports.showJsonROOM = function(req, res) {
 //     };
 //   });
 // }
-
-
-///////////////////////User Login ////////////////////////////////////////
+///////////////////////User Mobile////////////////////////////////////////
 
 var SUserSchema = mongoose.Schema({
     username: String,
@@ -239,6 +237,10 @@ var SUserSchema = mongoose.Schema({
     working: String,
     SID: String,
     tel: String,
+    blackList: {
+        type: Boolean,
+        default: false
+    },
     date: {
         type: Date,
         default: Date.now()
@@ -265,8 +267,25 @@ exports.insertUser = function(req, res) {
     });
     res.send(item);
 };
-
+//////////////////////
 exports.updateUsers = function(req, res) {
+SUser.update({ _id: req.param('username') }, {
+    $set: {
+        "Name": req.body.Name,
+        "password": req.body.password,
+        "email": req.body.email,
+        "SID": req.body.SID,
+        "faculty": req.body.faculty,
+        "tel": req.body.tel
+      }
+    }, function(err, user) {
+        if (err) return handleError(err);
+        console.log(user);
+        console.log('OK');
+    });
+};
+//////////////////////
+exports.updateUserxz = function(req, res) {
     var name = req.body.name;
     var password = req.body.password;
     var faculty = req.body.faculty;
@@ -274,7 +293,7 @@ exports.updateUsers = function(req, res) {
     var sid = req.body.sid;
     var email = req.body.email;
     SUser.update({
-        username: req.param('username')
+        id: req.param('username')
     }, {
         $set: {
             Name: name,
@@ -288,6 +307,20 @@ exports.updateUsers = function(req, res) {
         if (err) return handleError(err);
         console.log(user);
         console.log('OK');
+    });
+};
+
+exports.showBL = function(req, res, next) {
+    SUser.find({blackList : true}, function(err, response) {
+        if (err) {
+            return next(err);
+        } else {
+
+            res.render('blacklist', {
+                items: response
+            });
+        }
+        console.log("show User");
     });
 };
 
@@ -423,6 +456,7 @@ exports.showJsonBL = function(req, res) {
 }
 ////////////////////////////////////// ConfirmedRRS /////////////////////////////////////////////
 var ConfirmedRRSSchema = mongoose.Schema({
+    username: String,
     User: String,
     times: String,
     RoomId: String,
@@ -435,6 +469,7 @@ var confirmRRS = mongoose.model('confirmRRS', ConfirmedRRSSchema);
 exports.insertRRS = function(req, res, next) {
     var dateTime = new Date();
     var item = {
+        username:req.body.username,
         User: req.body.User,
         times: req.body.times,
         RoomId: req.body.RoomId,
@@ -444,16 +479,16 @@ exports.insertRRS = function(req, res, next) {
     data.save();
     console.log(data);
 };
-/*
+
 exports.deleteRRS = function(req, res, next) {
-      var _id = req.param.('id');
+      var _id = req.param('id');
         confirmRRS.findByIdAndRemove(_id).exec();
         console.log("delete ID")
 };
-*/
+
 exports.showJsonRRS = function(req, res) {
     confirmRRS
-        .find()
+        .find({username: req.param('username')})
         .populate('File')
         .sort({
             date: -1

@@ -25,7 +25,7 @@ app.route('/showR')
 app.route('/deleteR/:rid')
      .post(user.deleteR);
 
-app.route('/showJsonR')
+app.route('/showJsonR/:id')
      .get(user.showJsonROOM);
 
 app.route('/S/:Roomtype/:time/:day/:unum')
@@ -37,7 +37,7 @@ app.route('/loginPage/:username')
 app.route('/insertUSer')
  .post(user.insertUser);
 
-app.route('/updateUSer')
+app.route('/updateUSer/')
  .post(user.updateUsers);
 
 app.route('/profile/:username')
@@ -69,10 +69,10 @@ app.route('/showJsonUSer')
 app.route('/insertRRS')
     .post(user.insertRRS);
 
-app.route('/showJsonRRS')
+app.route('/showJsonRRS/:username')
     .get(user.showJsonRRS);
-/*
+
 app.route('/deleteRRS/:id')
     .post(user.deleteRRS);
-    */
+
 };
