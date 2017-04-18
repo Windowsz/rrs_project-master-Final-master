@@ -41,7 +41,7 @@ app.route('/updateUSer/')
  .post(user.updateUsers);
 
 app.route('/profile/:username')
-    .post(user.updateUsers);
+    .all(user.updateUsers);
 
 
  app.route('/showS/:id')
@@ -53,12 +53,6 @@ app.route('/profile/:username')
 
 app.route('/showBL')
     .get(user.showBL);
-
-app.route('/insertBL')
-    .post(user.insertBL);
-
-app.route('/deleteBL')
-    .post(user.deleteBL);
 
 app.route('/showUSer')
     .get(user.showUser);

@@ -269,7 +269,7 @@ exports.insertUser = function(req, res) {
 };
 //////////////////////
 exports.updateUsers = function(req, res) {
-SUser.update({ _id: req.param('username') }, {
+SUser.update({ username: req.param('username') }, {
     $set: {
         "Name": req.body.Name,
         "password": req.body.password,
@@ -309,7 +309,20 @@ exports.updateUserxz = function(req, res) {
         console.log('OK');
     });
 };
-
+/*
+exports.updateUsers = function(req, res){
+       var first = req.body.firstname;
+       var  last  = req.body.lastname;
+       var  fac = req.body.faculty;
+       var  yy =  req.body.year;
+       var userT  =  req.body.userType;
+     SUser.update({username:req.param('username')}, { $set: { firstname: first, lastname : last, faculty : fac,
+     userType : userT , year : yy }}, function (err, user) {
+       if (err) return handleError(err);
+       console.log(user);
+       console.log('OK');
+});
+   }
 exports.showBL = function(req, res, next) {
     SUser.find({blackList : true}, function(err, response) {
         if (err) {
@@ -323,7 +336,7 @@ exports.showBL = function(req, res, next) {
         console.log("show User");
     });
 };
-
+*/
 exports.showUser = function(req, res, next) {
     SUser.find({}, function(err, response) {
         if (err) {
@@ -391,36 +404,10 @@ exports.getLogin = function(req, res) {
         });
 };
 
-//////////////////////////////// BL ////////////////////////////////////
-
-var BlackListSchema = mongoose.Schema({
-    FLName: String,
-    SID: String,
-    date: {
-        type: Date,
-        default: Date.now()
-    }
-}, {
-    collection: 'BLUser'
-});
-var BLUser = mongoose.model('BLUser', BlackListSchema);
-
-exports.insertBL = function(req, res, next) {
-    var dateTime = new Date();
-    var item = {
-
-        FLName: req.body.FLName,
-        SID: req.body.SID,
-        // var  date = new Date();
-    };
-
-    var data = new BLUser(item);
-    data.save()
-    res.redirect('/showBL');
-};
+//////////////////////////////// BlackList ////////////////////////////////////
 
 exports.showBL = function(req, res, next) {
-    BLUser.find({}, function(err, response) {
+    SUser.find({blackList: true}, function(err, response) {
         if (err) {
             return next(err);
         } else {
@@ -460,6 +447,10 @@ var ConfirmedRRSSchema = mongoose.Schema({
     User: String,
     times: String,
     RoomId: String,
+    confirmCheck: {
+      type: Boolean,
+      default: false
+    },
     Confirmdate: String,
 }, {
     collection: 'confirmRRS'
