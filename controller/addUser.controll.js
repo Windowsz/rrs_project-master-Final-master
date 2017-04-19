@@ -161,32 +161,32 @@ exports.getRoom = function(req, res) {
     var roomtypes = req.param('Roomtype');
     var days = req.param('day');
     var time = req.param('time');
-    //    var unum = req.param('num');
+    var unum = req.param('num');
 
-    addroom
-        .find({
-            Roomtype: roomtypes,
-            //  Support: {$gte: req.param('num')}
-        }).exec(function(err, findroom) {
-            if (err) {
-                return handleError(err);
-            } else {
-                console.log('Show', findroom);
-                res.json(findroom);
-            };
-        });
-    /*  confirmRRS.find({
+        addroom
+            .find({
+                Roomtype: roomtypes,
+            //    Support: {$gte: req.param('num')}
+            }).exec(function(err, findroom) {
+                if (err) {
+                    return handleError(err);
+                } else {
+                    console.log('Show', findroom);
+                    res.json(findroom);
+                };
+            });
+    confirmRRS.find({
       Confirmdate : days,
       times : time
-    }).exec(function(err, findroom) {
+    }).exec(function(err, findroom2) {
         if (err) {
             return handleError(err);
         } else {
-            console.log('Show', findroom);
-            res.json(findroom);
+            console.log('Show', findroom2);
+            res.json(findroom2);
         };
     });
-*/
+
 };
 
 exports.deleteR = function(req, res, next) {
@@ -198,7 +198,9 @@ exports.deleteR = function(req, res, next) {
 
 exports.showJsonROOM = function(req, res) {
     addroom
-        .find({_id: req.param('id')})
+        .find({
+            _id: req.param('id')
+        })
         .populate('File')
         .sort({
             date: -1
@@ -269,15 +271,17 @@ exports.insertUser = function(req, res) {
 };
 //////////////////////
 exports.updateUsers = function(req, res) {
-SUser.update({ username: req.param('username') }, {
-    $set: {
-        "Name": req.body.Name,
-        "password": req.body.password,
-        "email": req.body.email,
-        "SID": req.body.SID,
-        "faculty": req.body.faculty,
-        "tel": req.body.tel
-      }
+    SUser.update({
+        username: req.param('username')
+    }, {
+        $set: {
+            "Name": req.body.Name,
+            "password": req.body.password,
+            "email": req.body.email,
+            "SID": req.body.SID,
+            "faculty": req.body.faculty,
+            "tel": req.body.tel
+        }
     }, function(err, user) {
         if (err) return handleError(err);
         console.log(user);
@@ -407,7 +411,9 @@ exports.getLogin = function(req, res) {
 //////////////////////////////// BlackList ////////////////////////////////////
 
 exports.showBL = function(req, res, next) {
-    SUser.find({blackList: true}, function(err, response) {
+    SUser.find({
+        blackList: true
+    }, function(err, response) {
         if (err) {
             return next(err);
         } else {
@@ -441,6 +447,7 @@ exports.showJsonBL = function(req, res) {
             res.json(BLUser);
         });
 }
+
 ////////////////////////////////////// ConfirmedRRS /////////////////////////////////////////////
 var ConfirmedRRSSchema = mongoose.Schema({
     username: String,
@@ -448,8 +455,8 @@ var ConfirmedRRSSchema = mongoose.Schema({
     times: String,
     RoomId: String,
     confirmCheck: {
-      type: Boolean,
-      default: false
+        type: Boolean,
+        default: false
     },
     Confirmdate: String,
 }, {
@@ -460,7 +467,7 @@ var confirmRRS = mongoose.model('confirmRRS', ConfirmedRRSSchema);
 exports.insertRRS = function(req, res, next) {
     var dateTime = new Date();
     var item = {
-        username:req.body.username,
+        username: req.body.username,
         User: req.body.User,
         times: req.body.times,
         RoomId: req.body.RoomId,
@@ -472,14 +479,16 @@ exports.insertRRS = function(req, res, next) {
 };
 
 exports.deleteRRS = function(req, res, next) {
-      var _id = req.param('id');
-        confirmRRS.findByIdAndRemove(_id).exec();
-        console.log("delete ID")
+    var _id = req.param('id');
+    confirmRRS.findByIdAndRemove(_id).exec();
+    console.log("delete ID")
 };
 
 exports.showJsonRRS = function(req, res) {
     confirmRRS
-        .find({username: req.param('username')})
+        .find({
+            username: req.param('username')
+        })
         .populate('File')
         .sort({
             date: -1
@@ -506,18 +515,19 @@ exports.showJsonRRS = function(req, res) {
 
 */
 
-exports.reserved = function(req, res) {
-    console.log(req.body._id);
-    confirmRRS.findByIdAndUpdate(req.body._id, {
+exports.upd = function(req, res) {
+    console.log(req.param('_id'));
+    confirmRRS.findByIdAndUpdate(req.param('_id'), {
         $push: {
-            reserved: {
-                from: req.body.from,
-                to: req.body.to
-            }
+            "Name": req.body.Name,
+            "password": req.body.password,
+            "email": req.body.email,
+            "SID": req.body.SID,
+            "faculty": req.body.faculty,
+            "tel": req.body.tel
         }
     }, {
-        safe: true,
-        new: true
+        safe: true
     }, function(err, room) {
         if (err) {
             res.send(err);

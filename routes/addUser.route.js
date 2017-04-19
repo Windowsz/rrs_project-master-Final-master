@@ -37,16 +37,19 @@ app.route('/loginPage/:username')
 app.route('/insertUSer')
  .post(user.insertUser);
 
+app.route('/upd/:id')
+ .all(user.upd);
+
 app.route('/updateUSer/')
  .post(user.updateUsers);
 
 app.route('/profile/:username')
     .all(user.updateUsers);
 
-
+/*
  app.route('/showS/:id')
  .get(user.reserved);
- /*
+
  app.route('/showS/')
  .get();
 */
