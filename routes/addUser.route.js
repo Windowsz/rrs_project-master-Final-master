@@ -5,6 +5,9 @@ module.exports = function (app) {
 app.route('/insert')
     .post(user.insert);
 
+app.route('/updateOf/:username')
+    .all(user.updateOf);
+
 app.route('/insertroom')
     .post(user.insertroom);
 
@@ -13,8 +16,6 @@ app.route('/show')
 
 app.route('/delete/:id')
      .post(user.delete);
-
-/////////// app.route('/updateUSer/:id')
 
 app.route('/showJson')
      .get(user.showJson);
@@ -37,11 +38,8 @@ app.route('/loginPage/:username')
 app.route('/insertUSer')
  .post(user.insertUser);
 
-app.route('/upd/:id')
- .all(user.upd);
-
-app.route('/updateUSer/')
- .post(user.updateUsers);
+//app.route('/upd/:id')
+// .all(user.upd);
 
 app.route('/profile/:username')
     .all(user.updateUsers);

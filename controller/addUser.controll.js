@@ -81,22 +81,31 @@ exports.delete = function(req, res, next) {
     console.log("delete ID")
     res.redirect('/show');
 };
-/*
-exports.updateUser = function(req, res, next) {
-    var id = req.param('id');
-    addUser.findByIdAndUpdate(
-      id,
-      password: req.param('password'),
-      email: req.param('email'),
-      firstName: req.param('firstName'),
-      lastName: req.param('lastName'),
-      Position: req.param('Position'),
-      floor: req.param('floor'),
-    ).exec();
-    console.log("update ID")
-    res.redirect('/show');
+
+
+exports.updateOf = function(req, res) {
+    addUser.update({
+        username: req.param('username')
+    }, {
+        $set: {
+          password: req.body.password,
+          email: req.body.email,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          Position: req.body.Position,
+          floor: req.body.floor,
+        }
+    }, function(err, user) {
+        if (err) return handleError(err);
+        res.writeHead(200, {
+            'Content-Type': 'application/json; charset=utf-8'
+        });
+        res.end(JSON.stringify(user));
+        console.log(user);
+        console.log('OK');
+    });
 };
-*/
+
 exports.showJson = function(req, res) {
     addUser
         .find()
@@ -163,21 +172,21 @@ exports.getRoom = function(req, res) {
     var time = req.param('time');
     var unum = req.param('num');
 
-        addroom
-            .find({
-                Roomtype: roomtypes,
+    addroom
+        .find({
+            Roomtype: roomtypes,
             //    Support: {$gte: req.param('num')}
-            }).exec(function(err, findroom) {
-                if (err) {
-                    return handleError(err);
-                } else {
-                    console.log('Show', findroom);
-                    res.json(findroom);
-                };
-            });
+        }).exec(function(err, findroom) {
+            if (err) {
+                return handleError(err);
+            } else {
+                console.log('Show', findroom);
+                res.json(findroom);
+            };
+        });
     confirmRRS.find({
-      Confirmdate : days,
-      times : time
+        Confirmdate: days,
+        times: time
     }).exec(function(err, findroom2) {
         if (err) {
             return handleError(err);
@@ -213,21 +222,6 @@ exports.showJsonROOM = function(req, res) {
         });
 };
 
-
-
-// exports.getSupport = function (req, res) {
-//     addRoom
-//     .find({
-//             Support: req.param('Support')
-//         })
-//     .exec(function (err, supports) {
-//       if (err) {return handleError(err);}
-//       else{
-//               console.log('Show', supports);
-//       res.json(supports);
-//     };
-//   });
-// }
 ///////////////////////User Mobile////////////////////////////////////////
 
 var SUserSchema = mongoose.Schema({
@@ -269,21 +263,26 @@ exports.insertUser = function(req, res) {
     });
     res.send(item);
 };
-//////////////////////
+
+
 exports.updateUsers = function(req, res) {
     SUser.update({
         username: req.param('username')
     }, {
         $set: {
-            "Name": req.body.Name,
-            "password": req.body.password,
-            "email": req.body.email,
-            "SID": req.body.SID,
-            "faculty": req.body.faculty,
-            "tel": req.body.tel
+            Name: req.body.Name,
+            password: req.body.password,
+            email: req.body.email,
+            SID: req.body.SID,
+            faculty: req.body.faculty,
+            tel: req.body.tel
         }
     }, function(err, user) {
         if (err) return handleError(err);
+        res.writeHead(200, {
+            'Content-Type': 'application/json; charset=utf-8'
+        });
+        res.end(JSON.stringify(user));
         console.log(user);
         console.log('OK');
     });
@@ -327,6 +326,22 @@ exports.updateUsers = function(req, res){
        console.log('OK');
 });
    }
+////////////////////// mongoose update /////////////////////////////
+update({ _id: ObjectId("58f6a1bc2d09333c02ef186a") }, {
+    $set: {
+        "Name": null,
+        "username": "1111",
+        "password": null,
+        "email": null,
+        "SID": null,
+        "faculty": null,
+        "tel": null,
+        "date": ISODate("2017-04-19T06:29:36.467+07:00"),
+        "blackList": false,
+        "__v": NumberInt("0")
+    }
+})
+   ///////////////////
 exports.showBL = function(req, res, next) {
     SUser.find({blackList : true}, function(err, response) {
         if (err) {
@@ -454,6 +469,7 @@ var ConfirmedRRSSchema = mongoose.Schema({
     User: String,
     times: String,
     RoomId: String,
+    roomname: String,
     confirmCheck: {
         type: Boolean,
         default: false
@@ -513,7 +529,7 @@ exports.showJsonRRS = function(req, res) {
       });
 };
 
-*/
+
 
 exports.upd = function(req, res) {
     console.log(req.param('_id'));
@@ -536,3 +552,4 @@ exports.upd = function(req, res) {
         }
     });
 }
+*/
