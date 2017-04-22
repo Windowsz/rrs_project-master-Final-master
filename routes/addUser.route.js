@@ -43,7 +43,8 @@ app.route('/insertUSer')
 
 app.route('/profile/:username')
     .all(user.updateUsers);
-
+app.route('/removeBlacklist/:id/:bool')
+    .all(user.removeBlacklist);
 /*
  app.route('/showS/:id')
  .get(user.reserved);

@@ -7,6 +7,7 @@
     "test-local": "zuul --local 8080 --ui mocha-bdd -- tests/test-qcode-decoder.js"
   },
   "dependencies": {
+    "angular": "^1.6.4",
     "bcrypt-nodejs": "*",
     "body-parser": "~1.0.0",
     "bower": "^1.3.3",

@@ -1,30 +1,6 @@
 var mongoose = require('mongoose');
-/////////////////////////////////////////// Pic upload ////////////////////////////////////////
-/*var fs = require('fs');
-var mongoose = require('mongoose');
-router.all('/upload',function(req,res){
-     var dirname = require('path').dirname(__dirname);
-     var filename = req.files.file.name;
-     var path = req.files.file.path;
-     var type = req.files.file.mimetype;
-
-     var read_stream =  fs.createReadStream(dirname + '/' + path);
-
-     var conn = req.conn;
-     var Grid = require('gridfs-stream');
-     Grid.mongo = mongoose.mongo;
-
-     var gfs = Grid(conn.db);
-
-     var writestream = gfs.createWriteStream({
-        filename: filename
-    });
-     read_stream.pipe(writestream);
-});
-*/
 /////////////////////////////////// Admin Account ///////////////////////////////////////////////
 var Schema = mongoose.Schema;
-// var mongoose = require('mongoose'),
 var addUserSchema = mongoose.Schema({
     username: String,
     password: String,
@@ -41,7 +17,6 @@ var addUserSchema = mongoose.Schema({
     collection: 'addUser'
 });
 var addUser = mongoose.model('addUser', addUserSchema);
-
 exports.insert = function(req, res, next) {
     var dateTime = new Date();
     var item = {
@@ -82,18 +57,17 @@ exports.delete = function(req, res, next) {
     res.redirect('/show');
 };
 
-
 exports.updateOf = function(req, res) {
     addUser.update({
         username: req.param('username')
     }, {
         $set: {
-          password: req.body.password,
-          email: req.body.email,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          Position: req.body.Position,
-          floor: req.body.floor,
+            password: req.body.password,
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            Position: req.body.Position,
+            floor: req.body.floor,
         }
     }, function(err, user) {
         if (err) return handleError(err);
@@ -161,11 +135,7 @@ exports.showR = function(req, res, next) {
         console.log("show User");
     });
 };
-/*
-exports.gets = function(req, res){
-  addroom.findOne({}).
-};
-*/
+
 exports.getRoom = function(req, res) {
     var roomtypes = req.param('Roomtype');
     var days = req.param('day');
@@ -217,7 +187,6 @@ exports.showJsonROOM = function(req, res) {
         .exec(function(err, addroom) {
             if (err) return handleError(err);
             console.log('The creator is %s', addroom);
-            // prints "The creator is Aaron"
             res.json(addroom);
         });
 };
@@ -225,7 +194,10 @@ exports.showJsonROOM = function(req, res) {
 ///////////////////////User Mobile////////////////////////////////////////
 
 var SUserSchema = mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        unique: true
+    },
     password: String,
     email: String,
     Name: String,
@@ -264,7 +236,6 @@ exports.insertUser = function(req, res) {
     res.send(item);
 };
 
-
 exports.updateUsers = function(req, res) {
     SUser.update({
         username: req.param('username')
@@ -287,75 +258,7 @@ exports.updateUsers = function(req, res) {
         console.log('OK');
     });
 };
-//////////////////////
-exports.updateUserxz = function(req, res) {
-    var name = req.body.name;
-    var password = req.body.password;
-    var faculty = req.body.faculty;
-    var tel = req.body.tel;
-    var sid = req.body.sid;
-    var email = req.body.email;
-    SUser.update({
-        id: req.param('username')
-    }, {
-        $set: {
-            Name: name,
-            faculty: faculty,
-            tel: tel,
-            SID: sid,
-            email: email,
-            password: password
-        }
-    }, function(err, user) {
-        if (err) return handleError(err);
-        console.log(user);
-        console.log('OK');
-    });
-};
-/*
-exports.updateUsers = function(req, res){
-       var first = req.body.firstname;
-       var  last  = req.body.lastname;
-       var  fac = req.body.faculty;
-       var  yy =  req.body.year;
-       var userT  =  req.body.userType;
-     SUser.update({username:req.param('username')}, { $set: { firstname: first, lastname : last, faculty : fac,
-     userType : userT , year : yy }}, function (err, user) {
-       if (err) return handleError(err);
-       console.log(user);
-       console.log('OK');
-});
-   }
-////////////////////// mongoose update /////////////////////////////
-update({ _id: ObjectId("58f6a1bc2d09333c02ef186a") }, {
-    $set: {
-        "Name": null,
-        "username": "1111",
-        "password": null,
-        "email": null,
-        "SID": null,
-        "faculty": null,
-        "tel": null,
-        "date": ISODate("2017-04-19T06:29:36.467+07:00"),
-        "blackList": false,
-        "__v": NumberInt("0")
-    }
-})
-   ///////////////////
-exports.showBL = function(req, res, next) {
-    SUser.find({blackList : true}, function(err, response) {
-        if (err) {
-            return next(err);
-        } else {
 
-            res.render('blacklist', {
-                items: response
-            });
-        }
-        console.log("show User");
-    });
-};
-*/
 exports.showUser = function(req, res, next) {
     SUser.find({}, function(err, response) {
         if (err) {
@@ -389,7 +292,6 @@ exports.showJsonUser = function(req, res) {
         .exec(function(err, SUser) {
             if (err) return handleError(err);
             console.log('The creator is %s', SUser);
-            // prints "The creator is Aaron"
             res.json(SUser);
         });
 };
@@ -440,12 +342,27 @@ exports.showBL = function(req, res, next) {
         console.log("show User");
     });
 };
-
-exports.deleteBL = function(req, res, next) {
-    var id = req.body.id;
-    BLUser.findByIdAndRemove(id).exec();
-    console.log("delete ID")
-    res.redirect('/showBL');
+exports.removeBlacklist = function(req, res, next) {
+    var id = req.param('id');
+    var id = req.param('bool');
+    BLUser.update({
+        query: {
+            id: id
+        },
+        update: {
+            $set: {
+                blackList: bool
+            }
+        }, function(err, userb) {
+        if (err) return handleError(err);
+        res.writeHead(200, {
+            'Content-Type': 'application/json; charset=utf-8'
+        });
+        res.end(JSON.stringify(userb));
+        console.log(userb);
+        console.log('OK removeBlacklist');
+        res.redirect('/showBL');
+    })
 };
 
 exports.showJsonBL = function(req, res) {
@@ -487,6 +404,7 @@ exports.insertRRS = function(req, res, next) {
         User: req.body.User,
         times: req.body.times,
         RoomId: req.body.RoomId,
+        Roomname: req.body.Roomname,
         Confirmdate: req.body.Confirmdate
     };
     var data = new confirmRRS(item);
@@ -495,8 +413,8 @@ exports.insertRRS = function(req, res, next) {
 };
 
 exports.deleteRRS = function(req, res, next) {
-    var _id = req.param('id');
-    confirmRRS.findByIdAndRemove(_id).exec();
+    var id = req.param('id');
+    confirmRRS.findByIdAndRemove(id).exec();
     console.log("delete ID")
 };
 
@@ -512,44 +430,6 @@ exports.showJsonRRS = function(req, res) {
         .exec(function(err, confirmRRS) {
             if (err) return handleError(err);
             console.log('The creator is %s', confirmRRS);
-            // prints "The creator is Aaron"
             res.json(confirmRRS);
         });
 }
-/*
- exports.showRRS = function(req, res, next) {
-      confirmRRS.findOne({id : req.param('id')}, function(err, response) {
-        if (err) {
-          return next(err);
-        } else {
-
-          res.render('QR', {items: response});
-        }
-        console.log("QR_User");
-      });
-};
-
-
-
-exports.upd = function(req, res) {
-    console.log(req.param('_id'));
-    confirmRRS.findByIdAndUpdate(req.param('_id'), {
-        $push: {
-            "Name": req.body.Name,
-            "password": req.body.password,
-            "email": req.body.email,
-            "SID": req.body.SID,
-            "faculty": req.body.faculty,
-            "tel": req.body.tel
-        }
-    }, {
-        safe: true
-    }, function(err, room) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(room);
-        }
-    });
-}
-*/
