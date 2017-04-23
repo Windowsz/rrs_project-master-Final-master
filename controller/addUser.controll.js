@@ -283,12 +283,8 @@ exports.deleteUser = function(req, res, next) {
 
 
 exports.showJsonUser = function(req, res) {
-    SUser
-        .find()
-        .populate('File')
-        .sort({
-            date: -1
-        })
+      SUser
+        .findOne({_id:req.params.id})
         .exec(function(err, SUser) {
             if (err) return handleError(err);
             console.log('The creator is %s', SUser);
@@ -326,7 +322,6 @@ exports.getLogin = function(req, res) {
 };
 
 //////////////////////////////// BlackList ////////////////////////////////////
-
 exports.showBL = function(req, res, next) {
     SUser.find({
         blackList: true
@@ -344,30 +339,18 @@ exports.showBL = function(req, res, next) {
 };
 exports.removeBlacklist = function(req, res, next) {
     var id = req.param('id');
-    var id = req.param('bool');
-    BLUser.update({
-        query: {
-            id: id
-        },
-        update: {
-            $set: {
-                blackList: bool
-            }
-        }, function(err, userb) {
-        if (err) return handleError(err);
-        res.writeHead(200, {
-            'Content-Type': 'application/json; charset=utf-8'
-        });
-        res.end(JSON.stringify(userb));
-        console.log(userb);
-        console.log('OK removeBlacklist');
-        res.redirect('/showBL');
-    })
+
+SUser.update({
+      username: id}, {
+        $set: { blackList: false
+        }}, function (err, user) {
+      if (err) return handleError(err);
+      res.redirect('/showBL');
+    });
 };
 
 exports.showJsonBL = function(req, res) {
-    BLUser
-        .find()
+  SUser.find()
         .populate('File')
         .sort({
             date: -1
@@ -378,7 +361,17 @@ exports.showJsonBL = function(req, res) {
             // prints "The creator is Aaron"
             res.json(BLUser);
         });
-}
+};
+
+exports.addbl = function(req, res, next) {
+  SUser.update({
+        username: req.body.id}, {
+          $set: { blackList: true
+          }}, function (err, user) {
+        if (err) return handleError(err);
+    res.redirect('/showBL');
+  });
+};
 
 ////////////////////////////////////// ConfirmedRRS /////////////////////////////////////////////
 var ConfirmedRRSSchema = mongoose.Schema({
@@ -413,8 +406,8 @@ exports.insertRRS = function(req, res, next) {
 };
 
 exports.deleteRRS = function(req, res, next) {
-    var id = req.param('id');
-    confirmRRS.findByIdAndRemove(id).exec();
+    var _id = req.param('id');
+    confirmRRS.findByIdAndRemove(_id).exec();
     console.log("delete ID")
 };
 

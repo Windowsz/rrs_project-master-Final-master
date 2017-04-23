@@ -145,7 +145,7 @@
                                                         <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 20%;">Name</th>
                                                         <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 15%;">Username</th>
                                                         <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 15%;">Email</th>
-                                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 10%;">Student ID</th>
+                                                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 10%;">SID</th>
                                                         <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 10%;">Faculty</th>
                                                         <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 10%;">Tel.</th>
                                                         <th class="sorting" role="columnheader" tabindex="0" aria-controls="example" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 20%;">Blacklist</th>
@@ -159,7 +159,7 @@
                                                             <td class="item">{{ this.SID }}</td>
                                                             <td class="item">{{ this.faculty }}</td>
                                                             <td class="item">{{ this.tel }}</td>
-                                                            <td class="item"><button onclick="return confirm('Are you sure you want to Remove this user out from Blacklist?')" type="submit" formmethod="post" formaction="/removeBlacklist/{{ this.id }}/false" class="btn btn-primary active">Remove</button></td>
+                                                            <td class="item"><button onclick="return confirm('Are you sure you want to Remove this user out from Blacklist?')" type="submit" formmethod="post" formaction="/removeBlacklist/{{ this.username }}" class="btn btn-primary active">Remove</button></td>
                                                         </tr>
                                                         {{/each}}
 
@@ -176,14 +176,14 @@
 
                     </form>
                 </div>
-                <section class="delete">
-                    <h3>Delete Account</h3>
-                    <form action="/delete" method="post">
+                <section>
+                    <h3>Add Blacklist Account</h3>
+                    <form action="/addbl" method="post">
                         <div class="input">
-                            <label for="id">ID</label>
+                            <label for="id">Username</label>
                             <input type="text" id="id" name="id" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary active">DELETE</button>
+                        <button type="submit" class="btn btn-primary active">ADD</button>
                     </form>
                 </section>
             </div>

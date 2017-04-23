@@ -43,8 +43,12 @@ app.route('/insertUSer')
 
 app.route('/profile/:username')
     .all(user.updateUsers);
-app.route('/removeBlacklist/:id/:bool')
+
+app.route('/removeBlacklist/:id')
     .all(user.removeBlacklist);
+
+app.route('/addbl')
+     .post(user.addbl);
 /*
  app.route('/showS/:id')
  .get(user.reserved);
@@ -59,7 +63,7 @@ app.route('/showBL')
 app.route('/showUSer')
     .get(user.showUser);
 
-app.route('/showJsonUSer')
+app.route('/showJsonUSer/:id')
     .get(user.showJsonUser);
 
 app.route('/insertRRS')
