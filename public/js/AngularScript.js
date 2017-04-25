@@ -8,7 +8,8 @@
         $scope.this.Position;
         $scope.this.floor;
         $scope.this.password;
-        console.log(  $scope.this.firstName+
+        console.log(
+          $scope.this.firstName+
           $scope.this.lastName+
           $scope.this.email+
           $scope.this.Position+
