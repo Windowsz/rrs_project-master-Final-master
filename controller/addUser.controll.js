@@ -57,26 +57,21 @@ exports.delete = function(req, res, next) {
     res.redirect('/show');
 };
 
-exports.updateOf = function(req, res) {
+exports.updateOf = function(req, res, next) {
+  console.log('update');
     addUser.update({
-        username: req.param('username')
-    }, {
-        $set: {
-            password: req.body.password,
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            Position: req.body.Position,
-            floor: req.body.floor,
-        }
-    }, function(err, user) {
-        if (err) return handleError(err);
-        res.writeHead(200, {
-            'Content-Type': 'application/json; charset=utf-8'
-        });
-        res.end(JSON.stringify(user));
-        console.log(user);
-        console.log('OK');
+          username: req.body.username}, {
+            $set: {
+                password: req.body.password,
+                email: req.body.email,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                Position: req.body.Position,
+                floor: req.body.floor
+            }}, function (err, user) {
+          if (err) return handleError(err);
+          console.log('update success');
+            res.redirect('/show');
     });
 };
 
@@ -161,8 +156,7 @@ exports.getRoom = function(req, res) {
         if (err) {
             return handleError(err);
         } else {
-            console.log('Show', findroom2);
-            res.json(findroom2);
+            console.log('Show');
         };
     });
 
@@ -379,7 +373,7 @@ var ConfirmedRRSSchema = mongoose.Schema({
     User: String,
     times: String,
     RoomId: String,
-    roomname: String,
+    Roomname: String,
     confirmCheck: {
         type: Boolean,
         default: false
@@ -390,7 +384,7 @@ var ConfirmedRRSSchema = mongoose.Schema({
 });
 var confirmRRS = mongoose.model('confirmRRS', ConfirmedRRSSchema);
 
-exports.insertRRS = function(req, res, next) {
+exports.insertRRS = function(req, res) {
     var dateTime = new Date();
     var item = {
         username: req.body.username,
@@ -403,11 +397,12 @@ exports.insertRRS = function(req, res, next) {
     var data = new confirmRRS(item);
     data.save();
     console.log(data);
+     res.end()
 };
 
-exports.deleteRRS = function(req, res, next) {
-    var _id = req.param('id');
-    confirmRRS.findByIdAndRemove(_id).exec();
+exports.deleteRRS = function(req, res) {
+    var id = req.param('id');
+    confirmRRS.findByIdAndRemove(id).exec();
     console.log("delete ID")
 };
 

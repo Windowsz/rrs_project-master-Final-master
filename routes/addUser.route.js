@@ -5,7 +5,7 @@ module.exports = function (app) {
 app.route('/insert')
     .post(user.insert);
 
-app.route('/updateOf/:username')
+app.route('/updateOf')
     .all(user.updateOf);
 
 app.route('/insertroom')
@@ -45,7 +45,7 @@ app.route('/profile/:username')
     .all(user.updateUsers);
 
 app.route('/removeBlacklist/:id')
-    .all(user.removeBlacklist);
+    .post(user.removeBlacklist);
 
 app.route('/addbl')
      .post(user.addbl);
